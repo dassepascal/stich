@@ -7,7 +7,7 @@ import Process from '@/Components/Process';
 import CTA from '@/Components/CTA';
 import Footer from '@/Components/Footer';
 
-export default function Welcome() {
+export default function Welcome({ services = [] }) {
     return (
         <>
             <Head title="KINETIC AI | L'Avenir de l'Automatisation pour PME" />
@@ -22,7 +22,7 @@ export default function Welcome() {
 
             <main className="pt-24">
                 <Hero />
-                <Services />
+                <Services services={services} />
                 <BentoGrid />
                 <Process />
                 <CTA />
