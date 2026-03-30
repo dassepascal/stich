@@ -1,7 +1,14 @@
 import { Link, usePage } from '@inertiajs/react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Navbar() {
     const { url } = usePage();
+    const { scrollY } = useScroll();
+
+    // 0→1 over first 80px of scroll
+    const bgOpacity   = useTransform(scrollY, [0, 80], [0.7, 0.95]);
+    const blurAmount  = useTransform(scrollY, [0, 80], [12, 24]);
+    const shadowAlpha = useTransform(scrollY, [0, 80], [0.04, 0.18]);
 
     const isActive = (href) => url.startsWith(href);
 
@@ -11,7 +18,15 @@ export default function Navbar() {
             : 'text-on-surface-variant hover:text-tertiary transition-colors';
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-[#0e0e0e]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(94,16,0,0.08)]">
+        <motion.header
+            className="fixed top-0 w-full z-50"
+            style={{
+                backgroundColor: useTransform(bgOpacity, (v) => `rgba(14,14,14,${v})`),
+                backdropFilter: useTransform(blurAmount, (v) => `blur(${v}px)`),
+                WebkitBackdropFilter: useTransform(blurAmount, (v) => `blur(${v}px)`),
+                boxShadow: useTransform(shadowAlpha, (v) => `0 20px 40px rgba(94,16,0,${v})`),
+            }}
+        >
             <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
                 <Link href="/" className="text-2xl font-black text-tertiary tracking-tighter font-headline">
                     KINETIC AI
@@ -39,6 +54,6 @@ export default function Navbar() {
                     Démarrer
                 </Link>
             </div>
-        </header>
+        </motion.header>
     );
 }

@@ -1,4 +1,19 @@
 import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+
+const container = {
+    hidden: {},
+    show: {
+        transition: {
+            staggerChildren: 0.12,
+        },
+    },
+};
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
 export default function Hero() {
     return (
@@ -11,8 +26,16 @@ export default function Hero() {
         >
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 {/* Left column — copy */}
-                <div className="lg:col-span-7 z-10">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full mb-6 border border-outline-variant/15">
+                <motion.div
+                    className="lg:col-span-7 z-10"
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                >
+                    <motion.div
+                        variants={fadeUp}
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full mb-6 border border-outline-variant/15"
+                    >
                         <span
                             className="w-2 h-2 rounded-full bg-secondary"
                             style={{ boxShadow: '0 0 15px rgba(253, 144, 0, 0.4)' }}
@@ -20,18 +43,24 @@ export default function Hero() {
                         <span className="text-[0.7rem] uppercase tracking-widest font-bold text-on-surface-variant">
                             L'IA de Demain pour les PME
                         </span>
-                    </div>
+                    </motion.div>
 
-                    <h1 className="font-headline font-extrabold text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter mb-8 text-on-surface">
+                    <motion.h1
+                        variants={fadeUp}
+                        className="font-headline font-extrabold text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter mb-8 text-on-surface"
+                    >
                         Révolu<span className="text-primary italic">tionnez</span> votre PME avec l'IA
-                    </h1>
+                    </motion.h1>
 
-                    <p className="text-on-surface-variant text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-body">
+                    <motion.p
+                        variants={fadeUp}
+                        className="text-on-surface-variant text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-body"
+                    >
                         Propulsez votre croissance grâce à nos solutions d'automatisation sur mesure.
                         Libérez vos équipes des tâches répétitives et concentrez-vous sur l'essentiel.
-                    </p>
+                    </motion.p>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                         <button className="bg-gradient-to-br from-primary-dim to-primary text-on-primary-fixed font-bold py-4 px-10 rounded-xl hover:shadow-[0_0_30px_rgba(255,143,115,0.3)] transition-all">
                             Consultation Gratuite
                         </button>
@@ -42,11 +71,16 @@ export default function Hero() {
                             Nos Services{' '}
                             <span className="material-symbols-outlined text-sm">arrow_forward</span>
                         </Link>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
 
                 {/* Right column — visual card */}
-                <div className="lg:col-span-5 relative hidden lg:block">
+                <motion.div
+                    className="lg:col-span-5 relative hidden lg:block"
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
+                >
                     <div className="absolute -top-24 -right-24 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full" />
                     <div className="relative rounded-2xl overflow-hidden border border-outline-variant/15 bg-surface-container-low p-2">
                         <img
@@ -66,7 +100,7 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

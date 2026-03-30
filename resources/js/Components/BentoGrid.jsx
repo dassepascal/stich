@@ -1,10 +1,34 @@
+import { motion } from 'framer-motion';
+import AnimatedCounter from './AnimatedCounter';
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 24 },
+    show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+const hoverCard = {
+    whileHover: { scale: 1.02, y: -5, transition: { duration: 0.25 } },
+};
+
 export default function BentoGrid() {
     return (
         <section className="py-24 px-8">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ staggerChildren: 0.1 }}
+                >
                     {/* Large card — Expertise */}
-                    <div className="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex flex-col justify-end relative overflow-hidden group">
+                    <motion.div
+                        variants={cardVariants}
+                        {...hoverCard}
+                        className="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex flex-col justify-end relative overflow-hidden group"
+                        style={{ borderColor: 'transparent' }}
+                        whileHover={{ scale: 1.02, y: -5, borderColor: 'rgba(255,143,115,0.3)', transition: { duration: 0.25 } }}
+                    >
                         <img
                             src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
                             alt="SME Excellence"
@@ -19,18 +43,29 @@ export default function BentoGrid() {
                                 direct, transparent et orienté résultats.
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Stats card */}
-                    <div className="md:col-span-4 md:row-span-1 bg-gradient-to-br from-primary-container to-primary-dim rounded-2xl p-10 flex flex-col items-center justify-center text-center">
-                        <div className="text-6xl font-black text-on-primary-fixed mb-2">40%</div>
+                    <motion.div
+                        variants={cardVariants}
+                        whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.25 } }}
+                        className="md:col-span-4 md:row-span-1 bg-gradient-to-br from-primary-container to-primary-dim rounded-2xl p-10 flex flex-col items-center justify-center text-center"
+                    >
+                        <div className="text-6xl font-black text-on-primary-fixed mb-2">
+                            <AnimatedCounter target={40} suffix="%" />
+                        </div>
                         <p className="text-on-primary font-bold text-lg">
                             Gain de productivité moyen constaté par nos clients
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Quality card */}
-                    <div className="md:col-span-4 md:row-span-1 bg-surface-container-high rounded-2xl p-10 flex flex-col justify-between">
+                    <motion.div
+                        variants={cardVariants}
+                        whileHover={{ scale: 1.02, y: -5, borderColor: 'rgba(255,143,115,0.3)', transition: { duration: 0.25 } }}
+                        className="md:col-span-4 md:row-span-1 bg-surface-container-high rounded-2xl p-10 flex flex-col justify-between"
+                        style={{ borderColor: 'transparent' }}
+                    >
                         <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
                             <span className="material-symbols-outlined text-secondary">verified</span>
                         </div>
@@ -41,10 +76,15 @@ export default function BentoGrid() {
                                 évolutions du marché.
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Security card */}
-                    <div className="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex items-center gap-12">
+                    <motion.div
+                        variants={cardVariants}
+                        whileHover={{ scale: 1.02, y: -5, borderColor: 'rgba(255,143,115,0.3)', transition: { duration: 0.25 } }}
+                        className="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex items-center gap-12"
+                        style={{ borderColor: 'transparent' }}
+                    >
                         <div className="flex-1">
                             <h3 className="font-headline text-3xl font-extrabold mb-4">
                                 Sécurité &amp; Souveraineté
@@ -59,8 +99,8 @@ export default function BentoGrid() {
                                 shield_lock
                             </span>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
     );

@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 // Palette cyclique : les couleurs sont de la présentation, pas des données métier.
 const palette = [
     {
@@ -20,6 +22,11 @@ const palette = [
     },
 ];
 
+const cardVariants = {
+    hidden: { opacity: 0, y: 28 },
+    show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
 export default function Services({ services = [] }) {
     return (
         <section id="services" className="py-24 px-8 bg-surface-container-low">
@@ -34,13 +41,26 @@ export default function Services({ services = [] }) {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ staggerChildren: 0.12 }}
+                >
                     {services.map((service, index) => {
                         const colors = palette[index % palette.length];
                         return (
-                            <div
+                            <motion.div
                                 key={service.id}
-                                className={`group p-8 bg-surface-container rounded-2xl border border-outline-variant/5 ${colors.hoverBorder} transition-all duration-500`}
+                                variants={cardVariants}
+                                whileHover={{
+                                    scale: 1.02,
+                                    y: -5,
+                                    borderColor: '#ff8f73',
+                                    transition: { duration: 0.25 },
+                                }}
+                                className={`group p-8 bg-surface-container rounded-2xl border border-outline-variant/5 transition-colors duration-500`}
                             >
                                 <div
                                     className={`w-14 h-14 rounded-xl ${colors.bgColor} flex items-center justify-center mb-6 transition-colors`}
@@ -60,10 +80,10 @@ export default function Services({ services = [] }) {
                                     En savoir plus{' '}
                                     <span className="material-symbols-outlined">chevron_right</span>
                                 </a>
-                            </div>
+                            </motion.div>
                         );
                     })}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
