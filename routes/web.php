@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SmeSolutionController;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,6 +14,14 @@ Route::get('/', function () {
         'services' => Service::orderBy('order')->get(),
     ]);
 });
+
+Route::get('/sme-solutions', [SmeSolutionController::class, 'index'])->name('sme-solutions');
+Route::inertia('/automatisation', 'Automation')->name('automatisation');
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
 Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
 Route::patch('/services/{service}', [ServiceController::class, 'update'])->name('services.update');

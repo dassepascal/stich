@@ -1,3 +1,5 @@
+import { Link } from '@inertiajs/react';
+
 export default function Hero() {
     return (
         <section
@@ -33,10 +35,13 @@ export default function Hero() {
                         <button className="bg-gradient-to-br from-primary-dim to-primary text-on-primary-fixed font-bold py-4 px-10 rounded-xl hover:shadow-[0_0_30px_rgba(255,143,115,0.3)] transition-all">
                             Consultation Gratuite
                         </button>
-                        <button className="border border-outline-variant/30 text-on-surface font-bold py-4 px-10 rounded-xl hover:bg-surface-container transition-all flex items-center justify-center gap-2">
+                        <Link
+                            href="/automatisation"
+                            className="border border-outline-variant/30 text-on-surface font-bold py-4 px-10 rounded-xl hover:bg-surface-container transition-all flex items-center justify-center gap-2"
+                        >
                             Nos Services{' '}
                             <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
