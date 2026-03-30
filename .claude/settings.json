@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer create-project:*)",
+      "Read(//home/pascal/Documents/informatique/Claude/**)",
+      "Bash(php artisan:*)"
+    ]
+  }
+}

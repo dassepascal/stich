@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KINETIC AI | L'Avenir de l'Automatisation pour PME</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#ffb2b9",
+                        "error-dim": "#d73357",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary": "#5e5f5f",
+                        "primary-dim": "#dc3300",
+                        "on-background": "#ffffff",
+                        "error": "#ff6e84",
+                        "tertiary": "#f9f9f9",
+                        "on-secondary-container": "#fff6f1",
+                        "surface-container-high": "#201f1f",
+                        "inverse-on-surface": "#565555",
+                        "background": "#0e0e0e",
+                        "surface-tint": "#ff8f73",
+                        "surface-variant": "#262626",
+                        "outline-variant": "#484847",
+                        "secondary-container": "#8e4e00",
+                        "primary-fixed": "#ff7856",
+                        "tertiary-fixed-dim": "#f1f1f1",
+                        "on-primary-fixed": "#000000",
+                        "on-tertiary-container": "#555757",
+                        "inverse-primary": "#b52900",
+                        "primary-container": "#ff7856",
+                        "on-secondary-fixed": "#512a00",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary": "#fd9000",
+                        "secondary-dim": "#ea8400",
+                        "secondary-fixed": "#ffc697",
+                        "on-error": "#490013",
+                        "surface-container-low": "#131313",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "secondary-fixed-dim": "#ffb470",
+                        "on-primary-container": "#490b00",
+                        "outline": "#767575",
+                        "on-surface-variant": "#adaaaa",
+                        "on-primary-fixed-variant": "#5a0f00",
+                        "on-secondary-fixed-variant": "#7a4300",
+                        "primary": "#ff8f73",
+                        "surface": "#0e0e0e",
+                        "surface-bright": "#2c2c2c",
+                        "on-tertiary-fixed-variant": "#6c6d6d",
+                        "on-surface": "#ffffff",
+                        "surface-container": "#1a1919",
+                        "on-secondary": "#462400",
+                        "tertiary-dim": "#ebebeb",
+                        "tertiary-container": "#ebebeb",
+                        "primary-fixed-dim": "#ff5c34",
+                        "error-container": "#a70138",
+                        "on-primary": "#5e1000",
+                        "surface-container-highest": "#262626"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .data-pulse {
+            box-shadow: 0 0 15px rgba(253, 144, 0, 0.4);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 70% 30%, rgba(255, 143, 115, 0.15) 0%, rgba(14, 14, 14, 1) 70%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#0e0e0e]/80 backdrop-blur-xl no-border bg-[#131313]/40 shadow-[0_20px_40px_rgba(94,16,0,0.08)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-[#f9f9f9] tracking-tighter font-headline">KINETIC AI</div>
+<nav class="hidden md:flex items-center space-x-8 font-manrope font-bold tracking-tight">
+<a class="text-[#ff8f73] border-b-2 border-[#ff8f73] pb-1" href="#">Services</a>
+<a class="text-[#adaaaa] hover:text-[#f9f9f9] transition-colors" href="#">Automatisation</a>
+<a class="text-[#adaaaa] hover:text-[#f9f9f9] transition-colors" href="#">SME Solutions</a>
+<a class="text-[#adaaaa] hover:text-[#f9f9f9] transition-colors" href="#">Contact</a>
+</nav>
+<button class="bg-gradient-to-r from-primary-dim to-primary text-on-primary-fixed font-bold px-6 py-2 rounded-xl scale-95 active:scale-90 transition-transform">
+                Démarrer
+            </button>
+</div>
+</header>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center px-8 hero-gradient overflow-hidden">
+<div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full mb-6 border border-outline-variant/15">
+<span class="w-2 h-2 rounded-full bg-secondary data-pulse"></span>
+<span class="text-[0.7rem] uppercase tracking-widest font-bold text-on-surface-variant">L'IA de Demain pour les PME</span>
+</div>
+<h1 class="font-headline font-extrabold text-5xl md:text-7xl lg:text-8xl leading-none tracking-tighter mb-8 text-on-surface">
+                        Révolu<span class="text-primary italic">tionnez</span> votre PME avec l'IA
+                    </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-body">
+                        Propulsez votre croissance grâce à nos solutions d'automatisation sur mesure. Libérez vos équipes des tâches répétitives et concentrez-vous sur l'essentiel.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-gradient-to-br from-primary-dim to-primary text-on-primary-fixed font-bold py-4 px-10 rounded-xl hover:shadow-[0_0_30px_rgba(255,143,115,0.3)] transition-all">
+                            Consultation Gratuite
+                        </button>
+<button class="border border-outline-variant/30 text-on-surface font-bold py-4 px-10 rounded-xl hover:bg-surface-container transition-all flex items-center justify-center gap-2">
+                            Nos Services <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="lg:col-span-5 relative hidden lg:block">
+<div class="absolute -top-24 -right-24 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="relative rounded-2xl overflow-hidden border border-outline-variant/15 bg-surface-container-low p-2">
+<img alt="AI Visualization" class="rounded-xl w-full h-[500px] object-cover" data-alt="Abstract cinematic visualization of data light trails in deep obsidian space with neon orange and red streaks of energy flow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8OFuKfksaJ-9YXwYLZ1h2rvhYCuGIyGnCe2SUlV8szdF3md80XDeid7W8lVj3HYSfuJpRMpTtvxW4zcnL6WR7IqQz27j8DhMLr6afr-HgEX3Jr7lYNRexy1JR72C9KBOkpXeSeklESk36IG-ngPGgzjZpq7VcFs2lMDaEu7B016-W2MC74yJ8f_9e7aVemCVkDdznfFwqtj_f1BiOTkYFM0Zdfl2g-r66wY0QK-P3In-erSD6i6JjFwC9qYn4SRjLIV30xFGHVA"/>
+<div class="absolute bottom-6 left-6 right-6 p-6 bg-surface-container/80 backdrop-blur-xl rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-secondary text-[0.65rem] font-bold uppercase mb-1">Status du Système</p>
+<h4 class="text-xl font-headline font-bold">Optimisation Active</h4>
+</div>
+<div class="text-primary font-mono text-xl font-black">+94%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="py-24 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold mb-4">Ingénierie du Futur</h2>
+<p class="text-on-surface-variant max-w-2xl">Trois piliers pour transformer votre infrastructure numérique en un moteur de performance automatisé.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Service 1 -->
+<div class="group p-8 bg-surface-container rounded-2xl border border-outline-variant/5 hover:border-primary/30 transition-all duration-500">
+<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Intégration de Systèmes</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Connectez vos outils existants (CRM, ERP, Web) dans un écosystème fluide et synchronisé en temps réel.</p>
+<a class="text-primary font-bold flex items-center gap-2 text-sm group-hover:gap-4 transition-all" href="#">En savoir plus <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+<!-- Service 2 -->
+<div class="group p-8 bg-surface-container rounded-2xl border border-outline-variant/5 hover:border-secondary/30 transition-all duration-500">
+<div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl">bolt</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Automatisation Intelligente</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Éliminez les tâches répétitives. Nos workflows autonomes gèrent vos processus 24/7 sans erreur humaine.</p>
+<a class="text-secondary font-bold flex items-center gap-2 text-sm group-hover:gap-4 transition-all" href="#">En savoir plus <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+<!-- Service 3 -->
+<div class="group p-8 bg-surface-container rounded-2xl border border-outline-variant/5 hover:border-primary-fixed/30 transition-all duration-500">
+<div class="w-14 h-14 rounded-xl bg-primary-fixed/10 flex items-center justify-center mb-6 group-hover:bg-primary-fixed/20 transition-colors">
+<span class="material-symbols-outlined text-primary-fixed text-3xl">psychology</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">IA sur Mesure</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">Développement d'agents IA spécialisés capables d'analyser vos données et d'aider à la prise de décision stratégique.</p>
+<a class="text-primary-fixed font-bold flex items-center gap-2 text-sm group-hover:gap-4 transition-all" href="#">En savoir plus <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Us - Bento Grid Style -->
+<section class="py-24 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex flex-col justify-end relative overflow-hidden group">
+<img alt="SME Excellence" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-110 transition-transform duration-700" data-alt="A modern, high-tech office in Paris with a view of the city at night, reflecting digital automation excellence" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEFV6JRFkAMo_meuc8g_shH5jw_XSQ4oxDoIUiJBIyF5CC_QHnl6wKC4SYF7b7iu-haqrIV6Zd966eyCrLZwUtR0WqieP65nYst2DXfDXw8_CqqYqcvyFXzSLmfpfT9a9kHM_OjOhYTKJHBVknu4HApYYT5_E4l9lg1E03zvObCTN6IS1ca-PCEIgNHLI5wp-oXXzIG9e5NTkjJAghhOIX2qo-RchVP1UgxKTRZbwBuIVWRafEVdA0gNVMmvupdFK4_C5NYkNiGg"/>
+<div class="relative z-10">
+<h3 class="font-headline text-3xl font-extrabold mb-4">Expertise Locale, Vision Mondiale</h3>
+<p class="text-on-surface-variant max-w-lg">Nous comprenons les défis uniques des PME françaises. Notre accompagnement est direct, transparent et orienté résultats.</p>
+</div>
+</div>
+<div class="md:col-span-4 md:row-span-1 bg-gradient-to-br from-primary-container to-primary-dim rounded-2xl p-10 flex flex-col items-center justify-center text-center">
+<div class="text-6xl font-black text-on-primary-fixed mb-2">40%</div>
+<p class="text-on-primary font-bold text-lg">Gain de productivité moyen constaté par nos clients</p>
+</div>
+<div class="md:col-span-4 md:row-span-1 bg-surface-container-high rounded-2xl p-10 flex flex-col justify-between">
+<div class="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+<div>
+<h4 class="font-headline text-xl font-bold mb-2">Qualité Garantie</h4>
+<p class="text-on-surface-variant text-sm">Une maintenance continue pour assurer que votre IA reste performante face aux évolutions du marché.</p>
+</div>
+</div>
+<div class="md:col-span-8 md:row-span-1 bg-surface-container rounded-2xl p-10 flex items-center gap-12">
+<div class="flex-1">
+<h3 class="font-headline text-3xl font-extrabold mb-4">Sécurité &amp; Souveraineté</h3>
+<p class="text-on-surface-variant">Vos données restent les vôtres. Nous privilégions des solutions respectueuses de la confidentialité et du RGPD.</p>
+</div>
+<div class="hidden sm:block">
+<span class="material-symbols-outlined text-[80px] text-outline-variant opacity-20">shield_lock</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Section -->
+<section class="py-24 px-8 bg-surface-container-low overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-20">
+<h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">Le Chemin vers l'IA</h2>
+<p class="text-on-surface-variant text-lg">Un processus structuré pour une transition technologique sans friction.</p>
+</div>
+<div class="relative">
+<div class="absolute top-1/2 left-0 w-full h-px bg-outline-variant/20 hidden lg:block"></div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<div class="relative bg-background p-8 rounded-2xl border border-outline-variant/10 z-10">
+<div class="text-primary font-black text-4xl mb-4 opacity-30">01</div>
+<h4 class="font-headline text-xl font-bold mb-3">Audit Stratégique</h4>
+<p class="text-on-surface-variant text-sm">Analyse de vos processus actuels pour identifier les gisements de valeur.</p>
+</div>
+<div class="relative bg-background p-8 rounded-2xl border border-outline-variant/10 z-10">
+<div class="text-secondary font-black text-4xl mb-4 opacity-30">02</div>
+<h4 class="font-headline text-xl font-bold mb-3">Conception</h4>
+<p class="text-on-surface-variant text-sm">Architecture de votre solution personnalisée et choix des technologies.</p>
+</div>
+<div class="relative bg-background p-8 rounded-2xl border border-outline-variant/10 z-10">
+<div class="text-primary-fixed font-black text-4xl mb-4 opacity-30">03</div>
+<h4 class="font-headline text-xl font-bold mb-3">Implémentation</h4>
+<p class="text-on-surface-variant text-sm">Développement agile et intégration progressive dans vos flux de travail.</p>
+</div>
+<div class="relative bg-background p-8 rounded-2xl border border-outline-variant/10 z-10">
+<div class="text-secondary font-black text-4xl mb-4 opacity-30">04</div>
+<h4 class="font-headline text-xl font-bold mb-3">Optimisation</h4>
+<p class="text-on-surface-variant text-sm">Monitoring, ajustement et formation de vos équipes pour une autonomie totale.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-32 px-8 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5"></div>
+<div class="max-w-4xl mx-auto text-center relative z-10">
+<h2 class="font-headline text-5xl md:text-7xl font-extrabold mb-8 leading-tight">Prêt à franchir le <span class="text-primary">pas ?</span></h2>
+<p class="text-xl text-on-surface-variant mb-12 max-w-2xl mx-auto">Prenez rendez-vous avec un de nos experts pour une démonstration gratuite des capacités d'automatisation pour votre secteur.</p>
+<div class="inline-block p-1 bg-surface-container-highest rounded-2xl">
+<div class="flex flex-col sm:flex-row gap-4 p-2">
+<input class="bg-surface-container border-none rounded-xl px-6 py-4 w-full sm:w-80 text-on-surface focus:ring-2 focus:ring-primary transition-all" placeholder="votre@email.fr" type="email"/>
+<button class="bg-primary text-on-primary-fixed font-bold py-4 px-10 rounded-xl hover:bg-primary-fixed transition-all">
+                            Réserver ma démo
+                        </button>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute -bottom-64 -left-64 w-[500px] h-[500px] bg-secondary/5 blur-[100px] rounded-full"></div>
+<div class="absolute -top-64 -right-64 w-[500px] h-[500px] bg-primary/5 blur-[100px] rounded-full"></div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#484847]/15 bg-[#0e0e0e]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 gap-6 max-w-7xl mx-auto">
+<div class="text-lg font-bold text-[#f9f9f9]">KINETIC AI</div>
+<div class="flex flex-wrap justify-center gap-8 font-inter text-sm text-[#adaaaa]">
+<a class="hover:text-[#fd9000] transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-[#fd9000] transition-colors" href="#">Conditions</a>
+<a class="hover:text-[#fd9000] transition-colors" href="#">Mentions Légales</a>
+<a class="hover:text-[#fd9000] transition-colors" href="#">Support</a>
+</div>
+<p class="text-[#adaaaa] text-sm text-center md:text-right">
+                © 2024 Kinetic Monolith. Automatisation pour PME Françaises.
+            </p>
+</div>
+</footer>
+</body></html>
