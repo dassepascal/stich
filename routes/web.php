@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProfileController;
@@ -34,6 +35,15 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/services', [ServiceController::class, 'index'])->name('services.index');
 });
+
+Route::middleware(['auth', 'verified', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/contacts', [Admin\ContactController::class, 'index'])->name('contacts.index');
+        Route::patch('/contacts/{contact}/read', [Admin\ContactController::class, 'markAsRead'])->name('contacts.read');
+        Route::delete('/contacts/{contact}', [Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
