@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SmeSolutionController;
 use App\Models\Post;
@@ -53,6 +53,8 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->name('admin.')
     ->group(function () {
         Route::resource('posts', Admin\PostController::class)->except(['show']);
+        Route::get('/images/search', [ImageController::class, 'search'])->name('images.search');
+        Route::post('/images', [ImageController::class, 'store'])->name('images.store');
         Route::get('/contacts', [Admin\ContactController::class, 'index'])->name('contacts.index');
         Route::patch('/contacts/{contact}/read', [Admin\ContactController::class, 'markAsRead'])->name('contacts.read');
         Route::delete('/contacts/{contact}', [Admin\ContactController::class, 'destroy'])->name('contacts.destroy');

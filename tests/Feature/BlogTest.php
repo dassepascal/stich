@@ -3,6 +3,8 @@
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\{get, actingAs};
 
@@ -112,6 +114,65 @@ it('admin can delete a post', function () {
     actingAs($admin)->delete("/admin/posts/{$post->id}")->assertRedirect();
 
     $this->assertDatabaseMissing('posts', ['id' => $post->id]);
+});
+
+it('admin can upload a cover image when creating a post', function () {
+    Storage::fake('public');
+    $admin = User::factory()->admin()->create();
+    $file  = UploadedFile::fake()->image('cover.jpg', 800, 450);
+
+    actingAs($admin)->post('/admin/posts', [
+        'title'        => 'Article avec image',
+        'content'      => '<p>Contenu.</p>',
+        'is_published' => false,
+        'cover_image'  => $file,
+    ])->assertRedirect();
+
+    $post = Post::where('title', 'Article avec image')->first();
+    expect($post->cover_image)->not->toBeNull();
+    Storage::disk('public')->assertExists($post->cover_image);
+});
+
+it('deletes old image when a new one is uploaded', function () {
+    Storage::fake('public');
+    $admin   = User::factory()->admin()->create();
+    $oldFile = UploadedFile::fake()->image('old.jpg');
+    $oldPath = $oldFile->store('blog', 'public');
+    $post    = Post::factory()->create(['cover_image' => $oldPath]);
+
+    $newFile = UploadedFile::fake()->image('new.jpg');
+    actingAs($admin)->patch("/admin/posts/{$post->id}", [
+        'title'       => $post->title,
+        'content'     => $post->content,
+        'cover_image' => $newFile,
+    ]);
+
+    Storage::disk('public')->assertMissing($oldPath);
+    Storage::disk('public')->assertExists(Post::find($post->id)->cover_image);
+});
+
+it('deletes image when post is destroyed', function () {
+    Storage::fake('public');
+    $admin   = User::factory()->admin()->create();
+    $file    = UploadedFile::fake()->image('cover.jpg');
+    $path    = $file->store('blog', 'public');
+    $post    = Post::factory()->create(['cover_image' => $path]);
+
+    actingAs($admin)->delete("/admin/posts/{$post->id}");
+
+    Storage::disk('public')->assertMissing($path);
+});
+
+it('rejects a cover image over 2MB', function () {
+    Storage::fake('public');
+    $admin   = User::factory()->admin()->create();
+    $bigFile = UploadedFile::fake()->image('big.jpg')->size(3000);
+
+    actingAs($admin)->post('/admin/posts', [
+        'title'       => 'Test',
+        'content'     => '<p>.</p>',
+        'cover_image' => $bigFile,
+    ])->assertSessionHasErrors('cover_image');
 });
 
 it('store rejects a post without title', function () {

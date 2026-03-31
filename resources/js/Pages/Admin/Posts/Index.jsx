@@ -124,7 +124,7 @@ export default function Index({ auth, posts }) {
                                                         className="text-on-surface-variant hover:text-primary transition-colors"
                                                         title="Voir l'article"
                                                     >
-                                                        <span className="material-symbols-outlined text-xl">open_in_new</span>
+                                                        <span className="material-symbols-outlined text-xl">visibility</span>
                                                     </a>
                                                 )}
                                                 <Link

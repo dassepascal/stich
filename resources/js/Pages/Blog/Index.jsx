@@ -23,10 +23,10 @@ function PostCard({ post }) {
             className="group bg-surface-container rounded-2xl border border-outline-variant/5 overflow-hidden flex flex-col"
             style={{ borderColor: 'transparent' }}
         >
-            {post.cover_image ? (
+            {post.cover_image_url ? (
                 <div className="h-52 overflow-hidden">
                     <img
-                        src={post.cover_image}
+                        src={post.cover_image_url}
                         alt={post.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

@@ -27,6 +27,22 @@ class Post extends Model
         'published_at' => 'datetime',
     ];
 
+    protected $appends = ['cover_image_url'];
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if (! $this->cover_image) {
+            return null;
+        }
+
+        // Déjà une URL absolue (ex: Unsplash) → retourner telle quelle
+        if (str_starts_with($this->cover_image, 'http')) {
+            return $this->cover_image;
+        }
+
+        return '/storage/' . $this->cover_image;
+    }
+
     public static function generateUniqueSlug(string $title, ?int $ignoreId = null): string
     {
         $base = Str::slug($title);
