@@ -6,9 +6,10 @@ import BentoGrid from '@/Components/BentoGrid';
 import Process from '@/Components/Process';
 import CTA from '@/Components/CTA';
 import Footer from '@/Components/Footer';
+import LatestPosts from '@/Components/LatestPosts';
 import CursorFollower from '@/Components/CursorFollower';
 
-export default function Welcome({ services = [] }) {
+export default function Welcome({ services = [], latestPosts = [] }) {
     return (
         <>
             <Head title="KINETIC AI | L'Avenir de l'Automatisation pour PME" />
@@ -29,6 +30,7 @@ export default function Welcome({ services = [] }) {
                 <BentoGrid />
                 <Process />
                 <CTA />
+                <LatestPosts posts={latestPosts} />
             </main>
 
             <Footer />

@@ -9,13 +9,15 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SmeSolutionController;
+use App\Models\Post;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'services' => Service::orderBy('order')->get(),
+        'services'     => Service::orderBy('order')->get(),
+        'latestPosts'  => Post::published()->latest('published_at')->limit(3)->get(),
     ]);
 });
 
