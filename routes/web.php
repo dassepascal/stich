@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SmeSolutionController;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +27,13 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+Route::get('/confidentialite', [PageController::class, 'confidentialite'])->name('confidentialite');
+Route::get('/conditions', [PageController::class, 'conditions'])->name('conditions');
+Route::get('/mentions-legales', [PageController::class, 'mentionsLegales'])->name('mentions-legales');
+
 Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
 Route::patch('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
 Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
@@ -40,6 +50,7 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+        Route::resource('posts', Admin\PostController::class)->except(['show']);
         Route::get('/contacts', [Admin\ContactController::class, 'index'])->name('contacts.index');
         Route::patch('/contacts/{contact}/read', [Admin\ContactController::class, 'markAsRead'])->name('contacts.read');
         Route::delete('/contacts/{contact}', [Admin\ContactController::class, 'destroy'])->name('contacts.destroy');

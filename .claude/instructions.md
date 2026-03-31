@@ -1,27 +1,205 @@
-# Règles de développement Laravel (Expert Mode)
+# KINETIC AI — Règles de développement
+
+## Stack technique
+- **Backend :** Laravel 11, PHP 8.3+, Pest PHP (TDD)
+- **Frontend :** Inertia.js + React, Tailwind CSS, Framer Motion
+- **Auth :** Laravel Breeze (session-based, email verification)
+- **Base de données :** MySQL/SQLite — migrations strictes
+
+---
 
 ## Profil & Comportement
 - Tu es un développeur Senior Laravel spécialisé en architecture propre et TDD.
 - Tu utilises systématiquement les fonctionnalités de PHP 8.3+ et Laravel 11.
-- Avant de coder une fonctionnalité, tu dois toujours proposer un plan d'action.
+- Avant de coder une fonctionnalité, tu proposes un plan d'action.
+- Les contrôleurs sont **Skinny** : toute logique métier vit dans `app/Actions/`.
 
-## Méthodologie TDD (Test Driven Development)
-- **Règle d'or :** Aucun code de production ne doit être écrit avant son test correspondant.
-- Utilise **Pest PHP** pour tous les tests.
-- Workflow obligatoire : 
-  1. Créer le test dans `tests/Feature` ou `tests/Unit`.
-  2. Exécuter le test (`php artisan test` ou `./vendor/bin/pest`) et constater l'échec.
-  3. Écrire le code minimal pour faire passer le test.
-  4. Refactoriser si nécessaire.
+---
 
-## Standards Laravel 11
-- **Modèles :** Utilise les `HasFactory`, le typage strict, et préfère les `Cast` modernes.
-- **Contrôleurs :** Garde-les "maigres" (Skinny Controllers). Déplace la logique complexe dans des **Actions** ou des **Services**.
-- **Validation :** Utilise toujours des `FormRequest` dédiées (`php artisan make:request`).
-- **Routes :** Utilise les noms de routes et le groupement par contrôleur.
-- **Base de données :** migrations strictes avec clés étrangères typées (`foreignId()->constrained()`).
+## Méthodologie TDD — Règle absolue
 
-## Commandes & Outils
-- Utilise toujours `php artisan` pour générer les fichiers (ne les crée pas à la main pour éviter les erreurs de Namespace).
-- Si une table change, mets à jour la migration et relance `php artisan migrate`.
-- Vérifie toujours la présence de nouveaux dossiers (comme `app/Actions`) avant de les créer.
+**Aucun code de production ne s'écrit avant son test.** Workflow obligatoire :
+
+1. Créer le test dans `tests/Feature/` (ou `tests/Unit/`)
+2. Lancer `./vendor/bin/pest` — constater le rouge
+3. Écrire le code minimal pour passer au vert
+4. Refactoriser si nécessaire
+
+Toute Route + Action + Controller livrée **doit** avoir son test Pest associé.
+
+---
+
+## Architecture Laravel 11
+
+### Actions (`app/Actions/`)
+Chaque opération métier est une classe à méthode unique `handle()` :
+```
+CreateServiceAction
+UpdateServiceAction
+RegisterLeadAction          → crée Lead + IP + dispatch LeadRegistered
+ProcessContactMessageAction → crée Contact + Log + dispatch ContactMessageReceived
+MarkContactAsReadAction     → idempotent (vérifie status avant update)
+```
+Les contrôleurs instancient et appellent les actions — jamais la logique directement.
+
+### FormRequests (`app/Http/Requests/`)
+Toute validation passe par une `FormRequest` dédiée. Messages d'erreur en **français**.
+```
+ServiceRequest
+StoreLeadRequest   → email:rfc (pas dns — échoue en test)
+ContactRequest     → inclut honeypot : website present|max:0
+```
+
+### Événements & Listeners
+**Pas d'`EventServiceProvider`** en Laravel 11 — tout est enregistré dans `AppServiceProvider::boot()` :
+```php
+Event::listen(LeadRegistered::class, SendNewLeadNotification::class);
+```
+
+### Middleware
+Alias enregistrés dans `bootstrap/app.php` via `$middleware->alias()` :
+```
+'admin' => EnsureUserIsAdmin::class
+```
+Protection admin : `['auth', 'verified', 'admin']` (3 niveaux).
+
+### Routes nommées
+```
+GET  /                     → Welcome (services injectés)
+GET  /sme-solutions        → sme-solutions
+GET  /automatisation       → automatisation
+GET  /contact              → contact
+POST /contact              → contact.store
+POST /leads                → leads.store
+GET  /confidentialite      → confidentialite
+GET  /conditions           → conditions
+GET  /mentions-legales     → mentions-legales
+GET  /admin/contacts       → admin.contacts.index
+PATCH /admin/contacts/{id}/read  → admin.contacts.read
+DELETE /admin/contacts/{id}      → admin.contacts.destroy
+```
+
+---
+
+## Design System — Kinetic AI
+
+### Palette officielle
+| Token | Valeur |
+|---|---|
+| `background` | `#0e0e0e` |
+| `primary` | `#ff8f73` |
+| `primary-dim` | `#c9563a` |
+| `primary-fixed` | `#ffd4c9` |
+| `primary-container` | `#3a1a12` |
+| `secondary` | `#fd9000` |
+| `tertiary` | `#c7c7ff` |
+| `surface-container-low` | `#131313` |
+| `surface-container` | `#1a1a1a` |
+| `surface-container-high` | `#222222` |
+| `on-surface` | `#e5e5e5` |
+| `on-surface-variant` | `#9a9a9a` |
+| `outline-variant` | `#333333` |
+
+`darkMode: 'class'` — `<html class="dark">` toujours présent dans `app.blade.php`.
+
+### Typographie
+- **Titres :** `font-headline` → Manrope (Google Fonts)
+- **Corps :** `font-body` → Inter (Google Fonts)
+- **Icônes :** Material Symbols Outlined (variable font Google Fonts)
+  - Utilisation : `<span className="material-symbols-outlined">icon_name</span>`
+  - Icônes confirmées : `hub`, `bolt`, `psychology`, `verified`, `shield_lock`, `check_circle`, `analytics`, `receipt_long`, `manage_accounts`, `campaign`, `inventory_2`, `arrow_forward`, `arrow_back`, `support_agent`, `chevron_right`, `progress_activity`, `close`, `delete`
+
+### Animations (Framer Motion)
+- **Durée :** 0.4s–0.6s — transitions rapides pour le côté "Kinetic"
+- **Hero :** `staggerChildren: 0.12` → badge → titre → texte → boutons
+- **Cartes :** `whileHover={{ scale: 1.02, y: -5, borderColor: '#ff8f73' }}`
+- **Counters :** `useInView` + `useEffect` setInterval (AnimatedCounter.jsx)
+- **Navbar :** `useScroll` + `useTransform` → blur 12px→24px sur 80px de scroll
+- **Cursor :** dot (spring raide) + ring (spring souple) + `mix-blend-screen`
+- **Pages légales :** `initial={{ opacity: 0, y: 20 }}` + `animate`
+
+---
+
+## Structure Frontend
+
+### Pages (`resources/js/Pages/`)
+```
+Welcome.jsx              ← homepage (services prop depuis Laravel)
+SmeSolutions.jsx
+Automation.jsx
+Contact.jsx              ← formulaire avec honeypot + success state
+Legal/
+  Confidentialite.jsx
+  Conditions.jsx
+  MentionsLegales.jsx
+Admin/
+  Contacts/Index.jsx     ← table + slide-over + delete dialog
+Services/Index.jsx       ← CRUD admin
+```
+
+### Composants (`resources/js/Components/`)
+```
+Navbar.jsx        ← scroll blur, usePage().url pour active state
+Hero.jsx          ← stagger animation
+Services.jsx      ← palette cyclique (primary/secondary/primary-fixed)
+BentoGrid.jsx     ← AnimatedCounter intégré
+Process.jsx
+CTA.jsx           ← useForm + flash.lead_success
+Footer.jsx        ← <Link> Inertia vers toutes les pages légales
+AnimatedCounter.jsx
+CursorFollower.jsx ← dot + ring, cursor: none sur la page
+```
+
+### Layouts (`resources/js/Layouts/`)
+```
+LegalLayout.jsx   ← Navbar + CursorFollower + bouton retour + typographie .legal-content
+AuthenticatedLayout.jsx
+```
+
+### Flash messages
+Partagés globalement via `HandleInertiaRequests::share()` :
+- `flash.lead_success` → CTA.jsx
+- `flash.contact_success` → Contact.jsx
+
+---
+
+## Modèles & Factory states
+
+| Modèle | Champs notables |
+|---|---|
+| `Service` | title, description, icon, link, order (cast int) |
+| `Lead` | email, status, ip_address |
+| `Contact` | name, email, company (nullable), message, status |
+| `User` | is_admin (bool, fillable) — `UserFactory::admin()` state |
+
+---
+
+## Anti-spam Honeypot
+Champ `website` : `present|max:0` côté serveur. CSS-caché côté React (`position: absolute; left: -9999px`). Bloque les bots qui remplissent ET ceux qui omettent le champ.
+
+---
+
+## Dashboard Admin
+Routes préfixées `/admin`, middleware `['auth', 'verified', 'admin']`, namespace `App\Http\Controllers\Admin`.
+- `Admin\ContactController` : index, markAsRead, destroy
+- `EnsureUserIsAdmin` : `abort(403)` si `!$request->user()?->is_admin`
+- Interface : table hover, slide-over detail panel, delete confirmation dialog, auto-mark-as-read à l'ouverture (`router.patch`)
+
+---
+
+## Commandes utiles
+```bash
+./vendor/bin/pest                    # tous les tests
+./vendor/bin/pest tests/Feature/Foo  # un fichier
+npm run build                        # vérifier la compilation Vite
+php artisan make:request FooRequest
+php artisan make:action FooAction    # si le générateur est disponible
+```
+
+---
+
+## Points de vigilance
+- `email:rfc` uniquement (pas `dns`) — la résolution DNS échoue dans l'environnement de test
+- Apostrophes dans les strings JSX : utiliser `"..."` si la chaîne contient `'`
+- `Event::listen()` dans `AppServiceProvider::boot()` — pas d'EventServiceProvider séparé
+- `foreignId()->constrained()` pour toutes les clés étrangères en migration
