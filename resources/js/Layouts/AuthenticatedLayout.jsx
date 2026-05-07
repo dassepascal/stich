@@ -7,6 +7,7 @@ const NAV_ITEMS = [
     { label: 'Messages',        href: '/admin/contacts',   icon: 'mail',        match: '/admin/contacts' },
     { label: 'Services',        href: '/dashboard/services', icon: 'hub',       match: '/dashboard/services' },
     { label: 'Gestion du Blog', href: '/admin/posts',      icon: 'article',     match: '/admin/posts' },
+    { label: 'Abonnés',        href: '/admin/subscribers', icon: 'group',       match: '/admin/subscribers' },
 ];
 
 function NavItem({ item, url, mobile = false }) {

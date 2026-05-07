@@ -45,7 +45,9 @@ export default function Contact() {
 
     return (
         <>
-            <Head title="Contact | KINETIC AI" />
+            <Head title="Contact | KINETIC AI">
+                <meta head-key="description" name="description" content="Discutons de votre projet. Contactez l'équipe KINETIC AI pour un audit gratuit de vos processus et découvrez comment l'IA peut transformer votre PME." />
+            </Head>
 
             <style>{`
                 .material-symbols-outlined {

@@ -59,7 +59,9 @@ const useCases = [
 export default function SmeSolutions() {
     return (
         <>
-            <Head title="SME Solutions | KINETIC AI" />
+            <Head title="SME Solutions | KINETIC AI">
+                <meta head-key="description" name="description" content="Des solutions IA clé en main pensées pour les PME. Facturation, relation client, RH, logistique : KINETIC AI identifie et automatise vos processus à fort impact." />
+            </Head>
 
             <style>{`
                 .material-symbols-outlined {

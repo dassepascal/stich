@@ -8,11 +8,15 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\SmeSolutionController;
 use App\Models\Post;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -28,6 +32,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
+
+Route::post('/newsletter', [SubscriberController::class, 'store'])->name('newsletter.store');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
@@ -58,6 +64,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('/contacts', [Admin\ContactController::class, 'index'])->name('contacts.index');
         Route::patch('/contacts/{contact}/read', [Admin\ContactController::class, 'markAsRead'])->name('contacts.read');
         Route::delete('/contacts/{contact}', [Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+        Route::get('/subscribers', [Admin\SubscriberController::class, 'index'])->name('subscribers.index');
+        Route::get('/subscribers/export', [Admin\SubscriberController::class, 'export'])->name('subscribers.export');
     });
 
 Route::middleware('auth')->group(function () {

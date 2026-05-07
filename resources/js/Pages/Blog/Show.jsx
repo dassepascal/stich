@@ -4,17 +4,33 @@ import Footer from '@/Components/Footer';
 import CursorFollower from '@/Components/CursorFollower';
 import { motion } from 'framer-motion';
 
-export default function Show({ post }) {
+export default function Show({ post, appUrl }) {
     const date = post.published_at
         ? new Date(post.published_at).toLocaleDateString('fr-FR', {
               day: 'numeric', month: 'long', year: 'numeric',
           })
         : null;
 
+    const jsonLd = {
+        '@context':         'https://schema.org',
+        '@type':            'Article',
+        headline:           post.title,
+        description:        post.excerpt || post.title,
+        image:              post.cover_image_url
+                                ? (post.cover_image_url.startsWith('http') ? post.cover_image_url : `${appUrl}${post.cover_image_url}`)
+                                : undefined,
+        datePublished:      post.published_at ?? undefined,
+        dateModified:       post.updated_at   ?? post.published_at ?? undefined,
+        author:             { '@type': 'Organization', name: 'KINETIC AI', url: appUrl },
+        publisher:          { '@type': 'Organization', name: 'KINETIC AI', url: appUrl },
+        mainEntityOfPage:   { '@type': 'WebPage', '@id': `${appUrl}/blog/${post.slug}` },
+    };
+
     return (
         <>
             <Head title={`${post.title} | KINETIC AI`}>
                 <meta head-key="description" name="description" content={post.excerpt || post.title} />
+                <script head-key="jsonld" type="application/ld+json">{JSON.stringify(jsonLd)}</script>
             </Head>
 
             <CursorFollower />

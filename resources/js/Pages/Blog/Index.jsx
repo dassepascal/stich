@@ -66,7 +66,9 @@ function PostCard({ post }) {
 export default function Index({ posts }) {
     return (
         <>
-            <Head title="Blog | KINETIC AI" />
+            <Head title="Blog | KINETIC AI">
+                <meta head-key="description" name="description" content="Automatisation, IA appliquée et stratégie digitale : les ressources et insights de KINETIC AI pour les PME françaises." />
+            </Head>
             <style>{`
                 * { cursor: none !important; }
                 .material-symbols-outlined {

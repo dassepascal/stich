@@ -76,7 +76,9 @@ const tools = [
 export default function Automation() {
     return (
         <>
-            <Head title="Automatisation | KINETIC AI" />
+            <Head title="Automatisation | KINETIC AI">
+                <meta head-key="description" name="description" content="Automatisez vos workflows métier grâce à l'IA. KINETIC AI conçoit des pipelines d'automatisation sur-mesure pour éliminer les tâches répétitives et libérer votre équipe." />
+            </Head>
 
             <style>{`
                 .material-symbols-outlined {

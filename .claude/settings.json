@@ -1,9 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(composer create-project:*)",
-      "Read(//home/pascal/Documents/informatique/Claude/**)",
-      "Bash(php artisan:*)"
+      "Bash(composer *)",
+      "Bash(php artisan *)",
+      "Bash(./vendor/bin/pest *)",
+      "Bash(npm *)",
+      "Read(/home/pascal/Documents/informatique/Claude/**)",
+      "Write(/home/pascal/Documents/informatique/Claude/**)"
     ]
+  },
+  "typescript": {
+    "enabled": true,
+    "strict": true,
+    "autoImport": true
   }
 }

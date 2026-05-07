@@ -22,7 +22,8 @@ class BlogController extends Controller
         $post = Post::published()->where('slug', $slug)->firstOrFail();
 
         return Inertia::render('Blog/Show', [
-            'post' => $post,
+            'post'   => $post,
+            'appUrl' => rtrim(config('app.url'), '/'),
         ]);
     }
 }

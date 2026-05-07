@@ -2,9 +2,10 @@
 
 ## Stack technique
 - **Backend :** Laravel 11, PHP 8.3+, Pest PHP (TDD)
-- **Frontend :** Inertia.js + React, Tailwind CSS, Framer Motion
+- **Frontend :** Inertia.js + React **TypeScript**, Tailwind CSS, Framer Motion
 - **Auth :** Laravel Breeze (session-based, email verification)
 - **Base de données :** MySQL/SQLite — migrations strictes
+- **Typage :** TypeScript strict (`"strict": true` dans `tsconfig.json`) — fichiers `.tsx` / `.ts`
 
 ---
 
@@ -26,6 +27,127 @@
 4. Refactoriser si nécessaire
 
 Toute Route + Action + Controller livrée **doit** avoir son test Pest associé.
+
+---
+
+## TypeScript — Standards stricts
+
+### Imports Inertia (`@inertiajs/react`)
+Toujours importer depuis `@inertiajs/react` avec les noms exacts — jamais depuis `@inertiajs/core` directement en composant :
+```typescript
+import { usePage, Link, router, useForm, Head } from '@inertiajs/react';
+import type { PageProps as InertiaPageProps } from '@inertiajs/core';
+```
+
+### Types globaux (`resources/js/types/index.d.ts`)
+Fichier centralisé pour tous les types partagés :
+```typescript
+import type { PageProps as InertiaPageProps } from '@inertiajs/core';
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  is_admin: boolean;
+}
+
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+  order: number;
+}
+
+export interface Contact {
+  id: number;
+  name: string;
+  email: string;
+  company: string | null;
+  message: string;
+  status: 'unread' | 'read';
+  created_at: string;
+}
+
+export interface Lead {
+  id: number;
+  email: string;
+  status: string;
+  ip_address: string | null;
+}
+
+// Props partagées injectées par HandleInertiaRequests::share()
+export interface SharedProps extends InertiaPageProps {
+  auth: { user: User | null };
+  flash: {
+    lead_success?: string;
+    contact_success?: string;
+  };
+}
+
+// Helper — remplace usePage<any>() partout
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> =
+  SharedProps & T;
+```
+
+### Interfaces de Props — Règle absolue
+Chaque composant et page **doit** déclarer une interface de Props explicite. Jamais `any`, jamais d'inférence implicite sur les props :
+```typescript
+// Bonne pratique — page Inertia
+interface Props {
+  services: Service[];
+}
+
+export default function Welcome({ services }: Props) { ... }
+
+// Bonne pratique — composant enfant
+interface ServiceCardProps {
+  title: string;
+  description: string;
+  icon: string;
+  colorClass: string;
+  onClick?: () => void;
+}
+
+export default function ServiceCard({ title, description, icon, colorClass, onClick }: ServiceCardProps) { ... }
+```
+
+### `usePage` typé
+Toujours passer le type générique pour accéder aux props partagées sans `any` :
+```typescript
+const { auth, flash } = usePage<PageProps>().props;
+// ou avec props spécifiques à la page :
+const { auth, flash, services } = usePage<PageProps<{ services: Service[] }>>().props;
+```
+
+### `useForm` typé
+```typescript
+const { data, setData, post, processing, errors } = useForm<{
+  email: string;
+  website: string; // honeypot
+}>({ email: '', website: '' });
+```
+
+### Types de retour des Actions PHP
+La méthode `handle()` de chaque Action **doit** déclarer son type de retour explicitement :
+```php
+// Actions qui créent un modèle
+public function handle(StoreLeadRequest $request): Lead { ... }
+public function handle(ContactRequest $request): Contact { ... }
+public function handle(ServiceRequest $request): Service { ... }
+
+// Actions qui modifient un modèle
+public function handle(Service $service, ServiceRequest $request): Service { ... }
+
+// Actions void (side-effects uniquement)
+public function handle(Contact $contact): void { ... }
+```
+
+### Extensions de fichiers
+- Pages et composants React → `.tsx`
+- Hooks, utilitaires, types → `.ts`
+- Jamais `.jsx` / `.js` dans les nouveaux fichiers
 
 ---
 
@@ -124,36 +246,36 @@ DELETE /admin/contacts/{id}      → admin.contacts.destroy
 
 ### Pages (`resources/js/Pages/`)
 ```
-Welcome.jsx              ← homepage (services prop depuis Laravel)
-SmeSolutions.jsx
-Automation.jsx
-Contact.jsx              ← formulaire avec honeypot + success state
+Welcome.tsx              ← homepage (services: Service[] prop depuis Laravel)
+SmeSolutions.tsx
+Automation.tsx
+Contact.tsx              ← formulaire avec honeypot + success state
 Legal/
-  Confidentialite.jsx
-  Conditions.jsx
-  MentionsLegales.jsx
+  Confidentialite.tsx
+  Conditions.tsx
+  MentionsLegales.tsx
 Admin/
-  Contacts/Index.jsx     ← table + slide-over + delete dialog
-Services/Index.jsx       ← CRUD admin
+  Contacts/Index.tsx     ← table + slide-over + delete dialog
+Services/Index.tsx       ← CRUD admin
 ```
 
 ### Composants (`resources/js/Components/`)
 ```
-Navbar.jsx        ← scroll blur, usePage().url pour active state
-Hero.jsx          ← stagger animation
-Services.jsx      ← palette cyclique (primary/secondary/primary-fixed)
-BentoGrid.jsx     ← AnimatedCounter intégré
-Process.jsx
-CTA.jsx           ← useForm + flash.lead_success
-Footer.jsx        ← <Link> Inertia vers toutes les pages légales
-AnimatedCounter.jsx
-CursorFollower.jsx ← dot + ring, cursor: none sur la page
+Navbar.tsx        ← scroll blur, usePage<PageProps>().url pour active state
+Hero.tsx          ← stagger animation
+Services.tsx      ← palette cyclique (primary/secondary/primary-fixed)
+BentoGrid.tsx     ← AnimatedCounter intégré
+Process.tsx
+CTA.tsx           ← useForm + flash.lead_success
+Footer.tsx        ← <Link> Inertia vers toutes les pages légales
+AnimatedCounter.tsx
+CursorFollower.tsx ← dot + ring, cursor: none sur la page
 ```
 
 ### Layouts (`resources/js/Layouts/`)
 ```
-LegalLayout.jsx   ← Navbar + CursorFollower + bouton retour + typographie .legal-content
-AuthenticatedLayout.jsx
+LegalLayout.tsx   ← Navbar + CursorFollower + bouton retour + typographie .legal-content
+AuthenticatedLayout.tsx
 ```
 
 ### Flash messages
@@ -200,6 +322,10 @@ php artisan make:action FooAction    # si le générateur est disponible
 
 ## Points de vigilance
 - `email:rfc` uniquement (pas `dns`) — la résolution DNS échoue dans l'environnement de test
-- Apostrophes dans les strings JSX : utiliser `"..."` si la chaîne contient `'`
+- Apostrophes dans les strings JSX/TSX : utiliser `"..."` si la chaîne contient `'`
 - `Event::listen()` dans `AppServiceProvider::boot()` — pas d'EventServiceProvider séparé
 - `foreignId()->constrained()` pour toutes les clés étrangères en migration
+- Ne jamais utiliser `usePage<any>()` — toujours passer `PageProps` ou `PageProps<{...}>`
+- `router` (Inertia) vs `useForm` : `router.patch/delete` pour les mutations sans form, `useForm` quand on gère `processing` + `errors`
+- Les props de page Inertia sont **toujours** en snake_case côté PHP (`created_at`) → mapper en camelCase dans l'interface TypeScript si besoin de cohérence locale
+- `children` dans les layouts : typer explicitement `children: React.ReactNode` dans l'interface Props du layout

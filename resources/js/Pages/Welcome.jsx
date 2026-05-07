@@ -12,7 +12,9 @@ import CursorFollower from '@/Components/CursorFollower';
 export default function Welcome({ services = [], latestPosts = [] }) {
     return (
         <>
-            <Head title="KINETIC AI | L'Avenir de l'Automatisation pour PME" />
+            <Head title="KINETIC AI | L'Avenir de l'Automatisation pour PME">
+                <meta head-key="description" name="description" content="KINETIC AI accompagne les PME françaises dans leur transformation grâce à l'intelligence artificielle et l'automatisation sur-mesure. Gagnez du temps, réduisez vos coûts, restez compétitifs." />
+            </Head>
 
             <style>{`
                 * { cursor: none !important; }
